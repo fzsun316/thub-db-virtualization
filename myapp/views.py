@@ -1,5 +1,5 @@
 from myapp import app
-from services import Traffic
+from services import Traffic, Weather
 import json
 from bson import json_util
 from bson.json_util import dumps
@@ -14,15 +14,29 @@ def index():
 def dashboard():
     return render_template("dashboard.html")
 
+@app.route('/calWeatherData')
+def calWeatherData():
+	t = Weather()
+	t.aggregate()
+	return "str(stdout)"
+
 @app.route('/calTrafficData')
-def test():
+def calTrafficData():
 	t = Traffic()
 	t.aggregate()
 	return "str(stdout)"
 
-@app.route('/trafficData')
+@app.route('/api/trafficData')
 def trafficData():
 	t = Traffic()
+	result = t.loadCurrentSummary()
+	js = json.dumps(result)
+	resp = Response(js, status=200, mimetype='application/json')
+	return resp
+
+@app.route('/api/weatherData')
+def weatherData():
+	t = Weather()
 	result = t.loadCurrentSummary()
 	js = json.dumps(result)
 	resp = Response(js, status=200, mimetype='application/json')

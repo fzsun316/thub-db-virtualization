@@ -145,7 +145,7 @@ function type(d) {
 }
 
 $(document).ready(function() {
-  $.getJSON('/trafficData', 
+  $.getJSON('/api/trafficData', 
       {},
       function(data) {
           drawCharts(data);

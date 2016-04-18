@@ -30,23 +30,26 @@ body {
 <script>
 
 var data = [{
-            "creat_time": 1387212500,
+            "creat_time": "2013-03-11 15:09:04",
             "record_status": "ok",
             "roundTripTime": "16"
         }, {
-            "creat_time": 1387213500,
+            "creat_time": "2013-03-12 14:59:06",
             "record_status": "ok",
             "roundTripTime": "0"
         }, {
-            "creat_time": 1387214500,
+            "creat_time": "2013-03-13 14:49:04",
             "record_status": "ok",
             "roundTripTime": "297"
         }, {
-            "creat_time": 1387211500,
+            "creat_time": "2013-03-14 14:39:06",
             "record_status": "ok",
-            "roundTripTime": "297"
-        }];
-    data.forEach(function(d) { d.creat_time = new Date(d.creat_time * 1000); });
+            "roundTripTime": "31"
+        },{
+            "creat_time": "2013-03-15 14:29:03",
+            "record_status": "ok",
+            "roundTripTime": "0"
+    }];
     var margin = {top: 20, right: 20, bottom: 30, left: 50};
     var width = 960 - margin.left - margin.right;
     var height = 500 - margin.top - margin.bottom;
@@ -71,7 +74,7 @@ var data = [{
     var xAxis = d3.svg.axis()
         .scale(x)
         .orient("bottom")
-    .tickFormat(d3.time.format("%b %d"));
+    .tickFormat(axisTimeFormat);
 
     var yAxis = d3.svg.axis()
         .scale(y)
@@ -89,7 +92,7 @@ var data = [{
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     data.forEach(function(d) {
-        // d.creat_time = parseDate(d.creat_time);
+        d.creat_time = parseDate(d.creat_time);
         d.roundTripTime = +d.roundTripTime;
     });
 
