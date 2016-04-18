@@ -9,7 +9,21 @@ class Config(object):
             'args': (),
             'trigger': 'interval',
             'seconds': 3600
-        }
+        },
+        {
+            'id': 'check_traffic_status',
+            'func': 'myapp.services:check_traffic_status',
+            'args': (),
+            'trigger': 'interval',
+            'seconds': 3600
+        },
+        {
+            'id': 'check_weather_status',
+            'func': 'myapp.services:check_weather_status',
+            'args': (),
+            'trigger': 'interval',
+            'seconds': 3600
+        },
     ]
 
     SCHEDULER_VIEWS_ENABLED = True

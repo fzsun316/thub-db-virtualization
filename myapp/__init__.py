@@ -9,3 +9,8 @@ scheduler = APScheduler()
 scheduler.init_app(app)
 
 from myapp import views
+
+import myapp.services
+services.request_heartbeat()
+services.check_traffic_status()
+services.check_weather_status()

@@ -5,6 +5,7 @@ from myapp import scheduler
 import time
 import requests
 import smtplib	# email
+import thread
 import logging
 logging.basicConfig()
 
@@ -29,7 +30,20 @@ publicAPI = PublicAPI()
 
 def request_heartbeat():
 	hb = HeartBeat()
-	hb.accessToAggregator()
+	thread.start_new_thread(hb.accessToAggregator, ())
+	# hb = HeartBeat()
+	# hb.accessToAggregator()
+
+def check_traffic_status():
+	t = Traffic()
+	thread.start_new_thread(t.aggregate, ())
+	# t.aggregate()
+
+def check_weather_status():
+	print 'check_weather_status'
+	t = Weather()
+	thread.start_new_thread(t.aggregate, ())
+	# t.aggregate()
 
 class HeartBeat:
 	AGR_TEST_URL = "http://129.59.107.160:5000/scheduler/jobs"
@@ -105,8 +119,8 @@ class Weather:
 					else:
 						dateMap[timestamp] = 0
 			index+=1
-			print "--- %d seconds ---" % ((time.time() - start_time)/index*(totalNum-index))
-			# if index>200:
+			print "-> Weather: %d seconds" % ((time.time() - start_time)/index*(totalNum-index))
+			
 		self.saveToMongoDB( self.generateResult(dateMap, startTs, endTs) )
 
 
@@ -163,8 +177,8 @@ class Traffic:
 				else:
 					dateMap[timestamp] = 0
 			index+=1
-			print "--- %d seconds ---" % ((time.time() - start_time)/index*(totalNum-index))
-			# if index>200:
+			print "-> Traffic: %d seconds" % ((time.time() - start_time)/index*(totalNum-index))
+			
 		self.saveToMongoDB( self.generateResult(dateMap, startTs, endTs) )
 		
 
