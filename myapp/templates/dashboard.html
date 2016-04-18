@@ -7,7 +7,12 @@ svg {
 }
 
 .area {
-  fill: steelblue;
+  fill: #4682B4;
+  clip-path: url(#clip);
+}
+
+.area2 {
+  fill: #46B482;
   clip-path: url(#clip);
 }
 
@@ -128,7 +133,7 @@ function drawWeatherChart(data) {
 
   focus.append("path")
   .datum(data)
-  .attr("class", "area")
+  .attr("class", "area2")
   .attr("d", area);
 
   focus.append("g")
