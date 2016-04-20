@@ -155,27 +155,28 @@ class Traffic:
 		startTs, endTs = -1, -1
 		dateMap = {}
 		# connect to realtime traffic data
-		db_collection = connection["thub_traffic"]["realtime_data"]
+		db_collection = connection["thub_traffic"]["realtime_data2"]
 		tpResults = db_collection.find()
 		totalNum = tpResults.count()
 		for tpResult in tpResults:
-			traffic_series =tpResult["traffic_series"]
+			traffic = tpResult['traffic']
+			# traffic_series =tpResult["traffic_series"]
 			# aggregate timestamp to the start of the day
-			for traffic in traffic_series:
-				timestamp = int(traffic['request_time'])
-				timestamp = publicAPI.sampleToDay(timestamp)
-				# get start and end timestamps
-				if startTs==-1:
-					startTs, endTs = timestamp, timestamp
-				elif timestamp<startTs:
-					startTs = timestamp
-				elif timestamp>endTs:
-					endTs = timestamp
-				# add to map
-				if timestamp in dateMap:
-					dateMap[timestamp] = dateMap[timestamp] + 1
-				else:
-					dateMap[timestamp] = 0
+			# for traffic in traffic_series:
+			timestamp = int(traffic['request_time'])
+			timestamp = publicAPI.sampleToDay(timestamp)
+			# get start and end timestamps
+			if startTs==-1:
+				startTs, endTs = timestamp, timestamp
+			elif timestamp<startTs:
+				startTs = timestamp
+			elif timestamp>endTs:
+				endTs = timestamp
+			# add to map
+			if timestamp in dateMap:
+				dateMap[timestamp] = dateMap[timestamp] + 1
+			else:
+				dateMap[timestamp] = 0
 			index+=1
 			print "-> Traffic: %d seconds" % ((time.time() - start_time)/index*(totalNum-index))
 			
